@@ -22,7 +22,7 @@ package helloworld_1;
 simple Txc
 {
     parameters:
-        bool sendInitialMessage = default(false);
+        bool sendInitialMessage = default(true);
         @display("i=block/routing"); // add a default icon
     gates:
         input in[];	//vector gates
