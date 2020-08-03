@@ -18,7 +18,7 @@
 namespace helloworld_1 {
 
 // your module
-Define_Module(Txc);
+//Define_Module(Txc);
 
 /*
 void Txc::initialize()
@@ -47,17 +47,34 @@ void Txc::initialize()
      // create and send first message on gate "out". "tictocMsg" is an
      // arbitrary string which will be the name of the message object.
      cMessage *msg = new cMessage("tictocMsg");
-     send(msg, "out", 1);
+     // We draw a random number between 0 and the size of gate `out[]'.
+     int n = gateSize("out");
+     int k = intuniform(0, n-1);
+
+     EV << "Sending message " << msg << " on port out[" << k << "]\n";
+     send(msg, "out", k);
      }
     }
-    void Txc::handleMessage(cMessage *msg)
+ /*   void Txc::handleMessage(cMessage *msg)
     {
      // The handleMessage() method is called whenever a message arrives
      // at the module. Here, we just send it to the other module, through
      // gate `out'. Because both `tic' and `toc' does the same, the message
      // will bounce between the two.
      send(msg, "out", 1); // send out the message
+    }*/
+
+    void Txc::handleMessage(cMessage *msg)
+    {
+        // In this example, we just pick a random gate to send it on.
+        // We draw a random number between 0 and the size of gate `out[]'.
+        int n = gateSize("out");
+        int k = intuniform(0, n-1);
+
+        EV << "Forwarding message " << msg << " on port out[" << k << "]\n";
+        send(msg, "out", k);
     }
+
 
 
 
